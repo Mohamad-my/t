@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - Medical Devices</title>
+    <link rel="website icon" type="png"  href="img/4660619.png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        h1{
+            text-align: center;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            margin-bottom: 20px;
+        }
+        .navbar-brand img {
+            margin-left: 10px;
+        }
+        .cart {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .cart-icon {
+            font-size: 24px;
+            color: white;
+        }
+        .cart-count {
+            background-color: darkcyan;
+            color: white;
+            border-radius: 50%;
+            padding: 5px 10px;
+            margin-left: 5px;
+            font-weight: bold;
+        }
+
+        /* Cart Modal Styles */
+        #cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            max-width: 400px;
+            height: 100%;
+            background-color: #fff;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        #cart-modal.show {
+            display: block;
+            transform: translateX(0);
+            opacity: 1;
+        }
+        #cart-modal .close {
+            font-size: 24px;
+            cursor: pointer;
+            color: darkcyan;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        #cart-modal h2 {
+            color: darkcyan;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #cart-items {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        #cart-items li {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #333;
+            font-size: 16px;
+        }
+        #cart-items .remove-item {
+            background-color: red;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+        #cart-items .remove-item:hover {
+            background-color: darkred;
+        }
+        #empty-cart, #confirmOrderButton {
+            background-color: darkcyan;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+        #empty-cart:hover {
+            background-color: #00bcd4;
+        }
+        #confirmOrderButton {
+            background-color: darkcyan;
+        }
+        #confirmOrderButton:hover {
+            background-color: #00bcd4;
+        }
+
+        /* Product Section Styles */
+        .container {
+            margin-top: 20px;
+        }
+        .product-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .product-item {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            width: calc(50% - 20px);
+            box-sizing: border-box;
+        }
+        .product-item img {
+            width: 100%; /* العرض الكامل للعنصر المحتوي */
+            height: 200px; /* تحديد الارتفاع الثابت */
+            object-fit: cover; /* تقطيع الصورة لتناسب الأبعاد المحددة */
+            border-bottom: 2px solid darkcyan;
+            margin-bottom: 15px;
+        }
+        .product-item h3 {
+            color: darkcyan;
+            margin: 0 0 10px;
+        }
+        .product-item p {
+            color: #555;
+            font-size: 14px;
+            margin: 0 0 10px;
+        }
+        .price {
+            font-size: 18px;
+            font-weight: bold;
+            color: darkcyan;
+            margin: 0 0 15px;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+        .button-group .btn {
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .button-group .btn:hover {
+            background-color: darkcyan;
+            color: #fff;
+        }
+        .learn-more {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .product-item {
+                width: calc(100% - 20px);
+            }
+            .cart {
+                position: static;
+                margin: 10px;
+            }
+        }
+        @media (max-width: 576px) {
+            .cart-icon {
+                font-size: 20px;
+            }
+            .cart-count {
+                padding: 3px 8px;
+            }
+            #cart-modal {
+                width: 100%;
+                max-width: none;
+                height: auto;
+                position: relative;
+            }
+            #cart-modal .close {
+                font-size: 20px;
+                top: 10px;
+                right: 10px;
+            }
+        }
+    </style>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Medical Devices
+                <img src="img/2139.jpg_wh860.jpg" alt="Medical Devices Logo" width="100" height="45">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="product.html">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="About_us.html">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Review.html">Review</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="cart" onclick="toggleCart()">
+            <span class="cart-icon">🛒</span>
+            <span class="cart-count" id="cart-count">0</span>
+        </div>
+    </nav>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal">
+        <span class="close" onclick="toggleCart()">✖</span>
+        <h2>Your Cart</h2>
+        <ul id="cart-items"></ul>
+        <button id="empty-cart" onclick="emptyCart()">Empty Cart</button>
+      <a href="order_form .html">  <button id="confirmOrderButton" onclick="confirmOrder()">Confirm Order</button></a>
+    </div>
+
+    <!-- Product Section -->
+    <div class="container">
+        <h1>Medical Devices</h1>
+        <div class="product-grid">
+        <div class="product-item">
+            <img src="img/product1.png" alt="Diagnostic Ultrasound Machine">
+            <h3>Diagnostic Ultrasound Machine</h3>
+            <p>A high-quality ultrasound machine for diagnostic purposes.</p>
+            <p class="price">$2000</p>
+            <p>Available: <span id="stock-Diagnostic-Ultrasound-Machine">6</span></p>
+        
+            <!-- فقط للمدير -->
+            <div class="admin-controls" style="display: none;"> <!-- اجعلها غير مرئية للعملاء -->
+                <label for="increase-quantity-Diagnostic-Ultrasound-Machine">Increase Stock:</label>
+                <input type="number" id="increase-quantity-Diagnostic-Ultrasound-Machine" min="1" placeholder="Quantity">
+                <button onclick="increaseStock('Diagnostic Ultrasound Machine')">Increase</button>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn" onclick="addToCart('Diagnostic Ultrasound Machine', 2000)">Add to Cart</button>
+                <a href="product1.html"> <button class="btn learn-more">Learn More</button></a>
+            </div>
+        </div>
+
+<!-- Product 2 -->
+<div class="product-item">
+    <img src="img/product2.jpg" alt="Heart Monitor">
+    <h3>Heart Monitor</h3>
+    <p>Advanced heart monitor providing real-time cardiac monitoring for critical care.</p>
+    <p class="price">$4,500</p>
+    <p>Available: <span id="stock-Heart-Monitor">4</span></p>
+    
+    <div class="admin-controls" style="display: none;">
+        <label for="increase-quantity-Heart-Monitor">Increase Stock:</label>
+        <input type="number" id="increase-quantity-Heart-Monitor" min="1" placeholder="Quantity">
+        <button onclick="increaseStock('Heart Monitor')">Increase</button>
+    </div>
+
+    <div class="button-group">
+        <button class="btn" onclick="addToCart('Heart Monitor', 4500)">Add to Cart</button>
+        <a href="product2.html" class="btn learn-more">Learn More</a>
+    </div>
+</div>
+
+<!-- Product 3 -->
+<div class="product-item">
+    <img src="img/product3.jpg" alt="X-Ray Machine">
+    <h3>X-Ray Machine</h3>
+    <p>Advanced X-Ray machine for detailed imaging.</p>
+    <p class="price">$5000</p>
+    <p>Available: <span id="stock-X-Ray-Machine">5</span></p>
+    
+    <div class="admin-controls" style="display: none;">
+        <label for="increase-quantity-X-Ray-Machine">Increase Stock:</label>
+        <input type="number" id="increase-quantity-X-Ray-Machine" min="1" placeholder="Quantity">
+        <button onclick="increaseStock('X-Ray Machine')">Increase</button>
+    </div>
+
+    <div class="button-group">
+        <button class="btn" onclick="addToCart('X-Ray Machine', 5000)">Add to Cart</button>
+        <a href="product3.html"><button class="btn learn-more">Learn More</button></a>
+    </div>
+</div>
+
+<!-- Product 4 -->
+<div class="product-item">
+    <img src="img/product4.jpeg" alt="MRI Scanner">
+    <h3>MRI Scanner</h3>
+    <p>High-precision MRI Scanner for medical diagnostics.</p>
+    <p class="price">$2000</p>
+    <p>Available: <span id="stock-MRI-Scanner">2</span></p>
+    
+    <div class="admin-controls" style="display: none;">
+        <label for="increase-quantity-MRI-Scanner">Increase Stock:</label>
+        <input type="number" id="increase-quantity-MRI-Scanner" min="1" placeholder="Quantity">
+        <button onclick="increaseStock('MRI Scanner')">Increase</button>
+    </div>
+
+    <div class="button-group">
+        <button class="btn" onclick="addToCart('MRI Scanner', 2000)">Add to Cart</button>
+        <a href="product4.html"><button class="btn learn-more">Learn More</button></a>
+    </div>
+</div>
+       
+
+
+            <!-- Add more product items as needed -->
+        </div>
+    </div>
+
+    <script>
+        let cartCount = 0;
+        let cartItems = [];
+
+        // Product stock count for each product
+        let productStock = {
+            'Diagnostic Ultrasound Machine': 6,
+            'Heart Monitor': 4,
+            'Portable Oxygen Concentrator': 5,
+            'Surgical Instrument Set': 3
+        };
+
+        function addToCart(productName, productPrice) {
+    const quantity = 1; // يمكن تغيير هذه القيمة حسب الحاجة
+
+    if (productStock[productName] >= quantity) {
+        cartCount += quantity;
+        document.getElementById('cart-count').innerText = cartCount;
+
+        for (let i = 0; i < quantity; i++) {
+            cartItems.push({name: productName, price: productPrice});
+        }
+        productStock[productName] -= quantity; // تقليل عدد المخزون
+        localStorage.setItem('productStock', JSON.stringify(productStock)); // حفظ المخزون في التخزين المحلي
+        updateCartItems();
+        updateProductStock(productName);
+    } else {
+        alert(`${productName} is Sold Out!`);
+    }
+}
+
+        function removeFromCart(index) {
+            const removedItem = cartItems[index];
+            productStock[removedItem.name]++; // Increase stock when item is removed
+            cartItems.splice(index, 1);
+            cartCount--;
+            document.getElementById('cart-count').innerText = cartCount;
+            updateCartItems();
+            updateProductStock(removedItem.name);
+        }
+
+        function updateCartItems() {
+            const cartList = document.getElementById('cart-items');
+            cartList.innerHTML = '';
+            cartItems.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `${item.name} - $${item.price} <button class="remove-item" onclick="removeFromCart(${index})">–</button>`;
+                cartList.appendChild(li);
+            });
+        }
+
+        function updateProductStock(productName) {
+            const stockElement = document.getElementById(`stock-${productName.replace(/\s+/g, '-')}`);
+            if (stockElement) {
+                stockElement.innerText = productStock[productName];
+            }
+            const productButtons = document.querySelectorAll('.btn');
+            productButtons.forEach((button) => {
+                if (button.innerText.includes('Add to Cart')) {
+                    const productContainer = button.closest('.product-item');
+                    const productTitle = productContainer.querySelector('h3').innerText;
+
+                    if (productTitle === productName) {
+                        if (productStock[productName] === 0) {
+                            button.disabled = true;
+                            button.innerText = 'Sold Out';
+                        } else {
+                            button.disabled = false;
+                            button.innerText = 'Add to Cart';
+                        }
+                    }
+                }
+            });
+        }
+
+        function emptyCart() {
+            cartCount = 0;
+            cartItems = [];
+            document.getElementById('cart-count').innerText = cartCount;
+            updateCartItems();
+        }
+
+        function confirmOrder() {
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            window.location.href = 'order_form.html';
+        }
+
+        function toggleCart() {
+            const cartModal = document.getElementById('cart-modal');
+            cartModal.classList.toggle('show');
+        }
+
+        // Initialize stock display for all products
+        document.addEventListener('DOMContentLoaded', function() {
+            Object.keys(productStock).forEach(productName => {
+                updateProductStock(productName);
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+    // تحميل المخزون من التخزين المحلي
+    const storedStock = localStorage.getItem('productStock');
+    if (storedStock) {
+        productStock = JSON.parse(storedStock);
+    }
+
+    Object.keys(productStock).forEach(productName => {
+        updateProductStock(productName);
+    });
+});
+
+function checkUserRole() {
+    const isAdmin = true; // تحقق من دور المستخدم الحقيقي
+    if (isAdmin) {
+        document.querySelectorAll('.admin-controls').forEach(control => {
+            control.style.display = 'block'; // إظهار واجهة الإدارة فقط للمدير
+        });
+    }
+}
+
+function increaseStock(productName) {
+    const quantityInput = document.getElementById(`increase-quantity-${productName.replace(/\s+/g, '-')}`);
+    const quantity = parseInt(quantityInput.value);
+
+    if (quantity && quantity > 0) {
+        // زيادة المخزون
+        let stockElement = document.getElementById(`stock-${productName.replace(/\s+/g, '-')}`);
+        let currentStock = parseInt(stockElement.textContent);
+        currentStock += quantity; // زيادة المخزون
+        stockElement.textContent = currentStock; // تحديث العد في واجهة الزبون
+        localStorage.setItem('productStock', JSON.stringify(currentStock)); // حفظ المخزون في التخزين المحلي
+        quantityInput.value = ''; // إعادة تعيين الحقل
+    } else {
+        alert('Please enter a valid quantity.');
+    }
+}
+
+// استدعاء الدالة عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', checkUserRole);
+
+
+    </script>
+</body>
+</html>
