@@ -469,14 +469,11 @@
 });
 
 function checkUserRole() {
-    const isAdmin = true; // تحقق من دور المستخدم الحقيقي
-    if (isAdmin) {
-        document.querySelectorAll('.admin-controls').forEach(control => {
-            control.style.display = 'block'; // إظهار واجهة الإدارة فقط للمدير
-        });
-    }
+    const isAdmin = false; // Change to true for admin testing
+    document.querySelectorAll('.admin-controls').forEach(control => {
+        control.style.display = isAdmin ? 'block' : 'none'; // Show for admin only
+    });
 }
-
 function increaseStock(productName) {
     const quantityInput = document.getElementById(`increase-quantity-${productName.replace(/\s+/g, '-')}`);
     const quantity = parseInt(quantityInput.value);
