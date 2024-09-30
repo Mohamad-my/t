@@ -272,53 +272,56 @@
     <div class="container">
         <h1>Medical Devices</h1>
         <div class="product-grid">
-        <div class="product-item">
-            <img src="img/product1.png" alt="Diagnostic Ultrasound Machine">
-            <h3>Diagnostic Ultrasound Machine</h3>
-            <p>A high-quality ultrasound machine for diagnostic purposes.</p>
-            <p class="price">$2000</p>
-            <p>Available: <span id="stock-Diagnostic-Ultrasound-Machine">6</span></p>
-        
-            <!-- فقط للمدير -->
-            <div class="admin-controls" style="display: none;"> <!-- اجعلها غير مرئية للعملاء -->
-                <label for="increase-quantity-Diagnostic-Ultrasound-Machine">Increase Stock:</label>
-                <input type="number" id="increase-quantity-Diagnostic-Ultrasound-Machine" min="1" placeholder="Quantity">
-                <button onclick="increaseStock('Diagnostic Ultrasound Machine')">Increase</button>
-            </div>
-            
-            <div class="button-group">
-                <button class="btn" onclick="addToCart('Diagnostic Ultrasound Machine', 2000)">Add to Cart</button>
-                <a href="product1.html"> <button class="btn learn-more">Learn More</button></a>
-            </div>
-        </div>
-
-<!-- Product 2 -->
+           <!-- Product 1 -->
 <div class="product-item">
-    <img src="img/product2.jpg" alt="Heart Monitor">
-    <h3>Heart Monitor</h3>
-    <p>Advanced heart monitor providing real-time cardiac monitoring for critical care.</p>
-    <p class="price">$4,500</p>
-    <p>Available: <span id="stock-Heart-Monitor">4</span></p>
+    <img src="img/product1.png" alt="Diagnostic Ultrasound Machine">
+    <h3>Diagnostic Ultrasound Machine</h3>
+    <p>High-performance ultrasound machine for diagnostic imaging.</p>
+    <p class="price">$5000</p>
+    <p>Available: <span id="stock-Diagnostic-Ultrasound-Machine">5</span></p>
     
     <div class="admin-controls" style="display: none;">
-        <label for="increase-quantity-Heart-Monitor">Increase Stock:</label>
-        <input type="number" id="increase-quantity-Heart-Monitor" min="1" placeholder="Quantity">
-        <button onclick="increaseStock('Heart Monitor')">Increase</button>
+        <label for="increase-quantity-Diagnostic-Ultrasound-Machine">Increase Stock:</label>
+        <input type="number" id="increase-quantity-Diagnostic-Ultrasound-Machine" min="1" placeholder="Quantity">
+        <button onclick="increaseStock('Diagnostic Ultrasound Machine')">Increase</button>
     </div>
 
     <div class="button-group">
-        <button class="btn" onclick="addToCart('Heart Monitor', 4500)">Add to Cart</button>
-        <a href="product2.html" class="btn learn-more">Learn More</a>
+        <button class="btn" onclick="addToCart('Diagnostic Ultrasound Machine', 5000)">Add to Cart</button>
+        <a href="product1.html" class="btn learn-more">Learn More</a>
     </div>
 </div>
+
+            
+           <!-- Product 2 -->
+           <div class="product-item">
+            <img src="img/product2.jpg" alt="Heart Monitor">
+            <h3>Heart Monitor</h3>
+            <p>Advanced heart monitor providing real-time cardiac monitoring for critical care.</p>
+            <p class="price">$4,500</p>
+            <p>Available: <span id="stock-Heart-Monitor">4</span></p>
+            
+            <!-- التحكم الإداري في زيادة المخزون -->
+            <div class="admin-controls" style="display: none;">
+                <label for="increase-quantity-Heart-Monitor">Increase Stock:</label>
+                <input type="number" id="increase-quantity-Heart-Monitor" min="1" placeholder="Quantity">
+                <button onclick="increaseStock('Heart Monitor')">Increase</button>
+            </div>
+        
+            <div class="button-group">
+                <button class="btn" onclick="addToCart('Heart Monitor', 4500)">Add to Cart</button>
+                <a href="product2.html" class="btn learn-more">Learn More</a>
+            </div>
+        </div>
+        
 
 <!-- Product 3 -->
 <div class="product-item">
     <img src="img/product3.jpg" alt="X-Ray Machine">
     <h3>X-Ray Machine</h3>
-    <p>Advanced X-Ray machine for detailed imaging.</p>
-    <p class="price">$5000</p>
-    <p>Available: <span id="stock-X-Ray-Machine">5</span></p>
+    <p>Portable X-ray machine for high-resolution imaging.</p>
+    <p class="price">$2000</p>
+    <p>Available: <span id="stock-X-Ray-Machine">3</span></p>
     
     <div class="admin-controls" style="display: none;">
         <label for="increase-quantity-X-Ray-Machine">Increase Stock:</label>
@@ -327,8 +330,8 @@
     </div>
 
     <div class="button-group">
-        <button class="btn" onclick="addToCart('X-Ray Machine', 5000)">Add to Cart</button>
-        <a href="product3.html"><button class="btn learn-more">Learn More</button></a>
+        <button class="btn" onclick="addToCart('X-Ray Machine', 2000)">Add to Cart</button>
+        <a href="product3.html" class="btn learn-more">Learn More</a>
     </div>
 </div>
 
@@ -336,8 +339,8 @@
 <div class="product-item">
     <img src="img/product4.jpeg" alt="MRI Scanner">
     <h3>MRI Scanner</h3>
-    <p>High-precision MRI Scanner for medical diagnostics.</p>
-    <p class="price">$2000</p>
+    <p>Advanced MRI scanner for detailed medical imaging.</p>
+    <p class="price">$6000</p>
     <p>Available: <span id="stock-MRI-Scanner">2</span></p>
     
     <div class="admin-controls" style="display: none;">
@@ -347,13 +350,10 @@
     </div>
 
     <div class="button-group">
-        <button class="btn" onclick="addToCart('MRI Scanner', 2000)">Add to Cart</button>
-        <a href="product4.html"><button class="btn learn-more">Learn More</button></a>
+        <button class="btn" onclick="addToCart('MRI Scanner', 6000)">Add to Cart</button>
+        <a href="product4.html" class="btn learn-more">Learn More</a>
     </div>
 </div>
-       
-
-
             <!-- Add more product items as needed -->
         </div>
     </div>
@@ -364,30 +364,25 @@
 
         // Product stock count for each product
         let productStock = {
-            'Diagnostic Ultrasound Machine': 6,
-            'Heart Monitor': 4,
-            'Portable Oxygen Concentrator': 5,
-            'Surgical Instrument Set': 3
+            'Diagnostic Ultrasound Machine': 5,
+            'Heart Monitor': 3,
+            'X-Ray Machine': 4,
+            'MRI Scanner': 2
         };
 
         function addToCart(productName, productPrice) {
-    const quantity = 1; // يمكن تغيير هذه القيمة حسب الحاجة
+            if (productStock[productName] > 0) {
+                cartCount++;
+                document.getElementById('cart-count').innerText = cartCount;
 
-    if (productStock[productName] >= quantity) {
-        cartCount += quantity;
-        document.getElementById('cart-count').innerText = cartCount;
-
-        for (let i = 0; i < quantity; i++) {
-            cartItems.push({name: productName, price: productPrice});
+                cartItems.push({name: productName, price: productPrice});
+                productStock[productName]--; // Decrease stock count
+                updateCartItems();
+                updateProductStock(productName);
+            } else {
+                alert(`${productName} is Sold Out!`);
+            }
         }
-        productStock[productName] -= quantity; // تقليل عدد المخزون
-        localStorage.setItem('productStock', JSON.stringify(productStock)); // حفظ المخزون في التخزين المحلي
-        updateCartItems();
-        updateProductStock(productName);
-    } else {
-        alert(`${productName} is Sold Out!`);
-    }
-}
 
         function removeFromCart(index) {
             const removedItem = cartItems[index];
@@ -456,44 +451,53 @@
                 updateProductStock(productName);
             });
         });
-        document.addEventListener('DOMContentLoaded', function() {
-    // تحميل المخزون من التخزين المحلي
-    const storedStock = localStorage.getItem('productStock');
-    if (storedStock) {
-        productStock = JSON.parse(storedStock);
+        // Assuming we have a simple flag to identify admin
+let isAdmin = false; // Set this to true if the logged-in user is an admin
+
+// Function to show admin controls
+function showAdminControls() {
+    if (isAdmin) {
+        const adminControls = document.querySelectorAll('.admin-controls');
+        adminControls.forEach(control => control.style.display = 'block');
     }
-
-    Object.keys(productStock).forEach(productName => {
-        updateProductStock(productName);
-    });
-});
-
-function checkUserRole() {
-    const isAdmin = false; // Change to true for admin testing
-    document.querySelectorAll('.admin-controls').forEach(control => {
-        control.style.display = isAdmin ? 'block' : 'none'; // Show for admin only
-    });
 }
+
+// تحديث عرض المخزون
+function updateStockDisplay() {
+    for (let product in productStock) {
+        const stockElement = document.getElementById(`stock-${product.replace(/\s+/g, '-')}`);
+        if (stockElement) {
+            stockElement.textContent = productStock[product];
+        }
+    }
+}
+
 function increaseStock(productName) {
-    const quantityInput = document.getElementById(`increase-quantity-${productName.replace(/\s+/g, '-')}`);
-    const quantity = parseInt(quantityInput.value);
-
-    if (quantity && quantity > 0) {
-        // زيادة المخزون
-        let stockElement = document.getElementById(`stock-${productName.replace(/\s+/g, '-')}`);
-        let currentStock = parseInt(stockElement.textContent);
-        currentStock += quantity; // زيادة المخزون
-        stockElement.textContent = currentStock; // تحديث العد في واجهة الزبون
-        localStorage.setItem('productStock', JSON.stringify(currentStock)); // حفظ المخزون في التخزين المحلي
-        quantityInput.value = ''; // إعادة تعيين الحقل
-    } else {
-        alert('Please enter a valid quantity.');
+    if (isAdmin) {
+        const inputElement = document.getElementById(`increase-quantity-${productName.replace(/\s+/g, '-')}`);
+        const increaseAmount = parseInt(inputElement.value);
+        if (!isNaN(increaseAmount) && increaseAmount > 0) {
+            productStock[productName] += increaseAmount; // Increase stock
+            updateProductStock(productName); // Update stock display
+            updateStockDisplay(); // Refresh all stock elements
+            inputElement.value = ''; // Clear the input field
+        } else {
+            alert('Please enter a valid quantity to increase stock.');
+        }
     }
 }
 
-// استدعاء الدالة عند تحميل الصفحة
-document.addEventListener('DOMContentLoaded', checkUserRole);
-
+document.addEventListener('DOMContentLoaded', function() {
+    showAdminControls(); // عرض التحكم الإداري
+    loadStock(); // تحميل المخزون من localStorage
+});
+function loadStock() {
+    const savedStock = localStorage.getItem('productStock');
+    if (savedStock) {
+        productStock = JSON.parse(savedStock); // استعادة المخزون من localStorage
+    }
+    updateStockDisplay();
+}
 
     </script>
 </body>
